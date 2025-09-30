@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Convite de Aniversário - 8 Anos da Sofia!</title>
+    <!-- Carrega Tailwind CSS para estilização moderna e responsiva -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Define a fonte Inter e cores temáticas */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #ffe4e6; /* Fundo rosa bem clarinho (pink-100) */
+        }
+        /* Estilos personalizados para o efeito de transição */
+        .card-container {
+            transition: transform 0.5s ease-in-out, box-shadow 0.3s ease;
+        }
+        .reveal-content {
+            opacity: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: opacity 1s ease, max-height 1s ease-in-out;
+        }
+        .revealed .reveal-content {
+            opacity: 1;
+            max-height: 1000px; /* Valor grande para permitir a transição de altura */
+        }
+        .mystery-box {
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+        .mystery-box:hover {
+            transform: scale(1.02);
+            box-shadow: 0 10px 20px rgba(255, 105, 180, 0.2); /* Sombra rosa */
+        }
+        /* Animação de clique no botão (efeito bolha) */
+        .bubble-click {
+            animation: bubble 0.2s ease-out;
+        }
+        @keyframes bubble {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        .icon-shadow {
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4">
+
+    <div id="invitationCard" class="card-container w-full max-w-sm md:max-w-md bg-white rounded-3xl shadow-2xl p-6 md:p-8 text-center border-4 border-pink-400">
+
+        <!-- Título Fixo - Foco no Aniversário da Sofia -->
+        <h1 class="text-3xl md:text-4xl font-black text-pink-600 mb-2 icon-shadow">
+            💖 8 Anos da Sofia - Uma Surpresa Pop! 🎀
+        </h1>
+        <p class="text-lg md:text-xl text-gray-700 mb-6">Venha abrir esta caixa de alegria conosco!</p>
+
+        <!-- A. O Botão/Caixa Mistério (Estado Inicial) -->
+        <div id="mysteryBox" class="mystery-box bg-gradient-to-r from-pink-400 to-purple-400 p-8 rounded-2xl shadow-xl text-white hover:shadow-2xl transition duration-300" onclick="revealDetails(this)">
+            <p class="text-6xl mb-3">📦</p>
+            <h2 class="text-2xl font-bold uppercase tracking-wider">CLIQUE PARA ABRIR A SURPRESA!</h2>
+            <p class="mt-2 text-sm">O que será que a nossa Sofia tem para mostrar?</p>
+        </div>
+
+        <!-- B. Conteúdo Revelado (Estado Final - Inicialmente Escondido) -->
+        <div id="detailsContent" class="reveal-content mt-6 pt-4 border-t border-dashed border-pink-300">
+
+            <h2 class="text-2xl font-extrabold text-purple-700 mb-4">✨ Os 8 Anos da Sofia Chegaram! ✨</h2>
+            
+            <!-- Elementos Temáticos Fofos (Foco em Bobo & Coco e Unicórnio/Pop) -->
+            <div class="flex justify-around items-center mb-6">
+                <p class="text-5xl" title="Bobo & Coco">🐻‍❄️</p>
+                <p class="text-7xl font-bold text-pink-500 transform -rotate-3" title="Unicórnio">🌈</p>
+                <p class="text-5xl" title="Cupcake">🧁</p>
+            </div>
+
+            <!-- Detalhes da Festa -->
+            <div class="space-y-4 text-left text-gray-700">
+                
+                <div class="flex items-center p-3 bg-pink-100 rounded-lg">
+                    <span class="text-3xl mr-3">🗓️</span>
+                    <div>
+                        <p class="font-semibold text-lg text-pink-600">QUANDO?</p>
+                        <!-- Dia: Sexta-feira -->
+                        <p class="text-base font-medium">Sexta-feira, 3 de Outubro</p>
+                    </div>
+                </div>
+
+                <div class="flex items-center p-3 bg-purple-100 rounded-lg">
+                    <span class="text-3xl mr-3">⏰</span>
+                    <div>
+                        <p class="font-semibold text-lg text-purple-600">QUE HORAS?</p>
+                        <!-- HORA ATUALIZADA PARA 18:00 -->
+                        <p class="text-base font-medium">Às 18:00 (6 da noite)</p>
+                    </div>
+                </div>
+
+                <div class="flex items-center p-3 bg-yellow-100 rounded-lg">
+                    <span class="text-3xl mr-3">🏠</span>
+                    <div>
+                        <p class="font-semibold text-lg text-yellow-600">ONDE?</p>
+                        <!-- Endereço completo -->
+                        <p class="text-base font-medium">Rua Souza de Andrade, 74 (Apto 401)</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Rodapé e Contato -->
+            <button class="w-full mt-8 p-3 bg-pink-500 text-white font-bold rounded-xl shadow-md hover:bg-pink-600 transition duration-150 bubble-click" onclick="copyContact()">
+                Me Chame para Confirmar (RSVP)
+            </button>
+            <p id="contactMessage" class="mt-2 text-green-600 hidden text-sm"></p>
+
+        </div>
+    </div>
+
+    <script>
+        // Variável de contato - Lembre-se de substituir o placeholder!
+        const contactInfo = "Seu Telefone/Contato para RSVP"; // 🚨 SUBSTITUA COM SEU NÚMERO DE TELEFONE REAL AQUI 🚨
+        const box = document.getElementById('mysteryBox');
+        const card = document.getElementById('invitationCard');
+        const details = document.getElementById('detailsContent');
+        const contactMessage = document.getElementById('contactMessage');
+        let isRevealed = false;
+
+        /**
+         * Função principal para revelar os detalhes do convite (efeito "unboxing").
+         * @param {HTMLElement} element - O elemento do botão/caixa clicado.
+         */
+        function revealDetails(element) {
+            if (isRevealed) return; 
+
+            // 1. Adiciona efeito de clique
+            element.classList.add('bubble-click');
+            setTimeout(() => {
+                element.classList.remove('bubble-click');
+            }, 200);
+
+            // 2. Esconde o botão/caixa mistério com um pequeno delay
+            setTimeout(() => {
+                element.style.display = 'none';
+
+                // 3. Revela o conteúdo da festa
+                card.classList.add('revealed');
+                isRevealed = true;
+            }, 300);
+
+            // 4. Muda o fundo do card para um visual mais "aberto"
+            card.classList.remove('border-pink-400');
+            card.classList.add('border-pink-600');
+        }
+
+        /**
+         * Copia a informação de contato para a área de transferência.
+         */
+        function copyContact() {
+            const tempInput = document.createElement('textarea');
+            tempInput.value = contactInfo;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            
+            try {
+                // Comando de cópia mais compatível em iframes
+                document.execCommand('copy');
+                // Mostra mensagem de sucesso
+                contactMessage.textContent = `Contato (${contactInfo}) copiado! Mande um WhatsApp!`;
+                contactMessage.classList.remove('hidden');
+                setTimeout(() => {
+                    contactMessage.classList.add('hidden');
+                }, 4000);
+            } catch (err) {
+                // Em caso de erro, apenas mostra o contato
+                contactMessage.textContent = `Erro ao copiar. Contato para RSVP: ${contactInfo}`;
+                contactMessage.classList.remove('hidden');
+            }
+            
+            document.body.removeChild(tempInput);
+        }
+
+        // Alerta para substituir o contato no console, caso não tenha sido feito.
+        if (contactInfo === "Seu Telefone/Contato para RSVP") {
+             console.error("ATENÇÃO: Lembre-se de substituir 'Seu Telefone/Contato para RSVP' no JavaScript pelo seu número real!");
+        }
+    </script>
+
+</body>
+</html>
+
